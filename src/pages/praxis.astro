@@ -1,0 +1,208 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import SectionHeading from '@components/ui/SectionHeading.astro';
+import CTABanner from '@components/home/CTABanner.astro';
+
+import imgDoor from '@assets/praxis/door-neu.jpg';
+import imgSauna from '@assets/praxis/sauna-neu.jpg';
+import imgBeratung from '@assets/praxis/beratung.JPG';
+import imgTraining from '@assets/praxis/training_01.JPG';
+import imgP1 from '@assets/praxis/P1.jpg';
+import imgP2 from '@assets/praxis/P2.jpg';
+import imgP3 from '@assets/praxis/P3.jpg';
+
+const gallery = [
+  { src: imgDoor, alt: 'Eingangsbereich der Praxis' },
+  { src: imgBeratung, alt: 'Beratung und Behandlung' },
+  { src: imgSauna, alt: 'Wärme- und Wellnessbereich' },
+  { src: imgTraining, alt: 'Trainingsbereich' },
+  { src: imgP1, alt: 'Praxisraum' },
+  { src: imgP2, alt: 'Behandlungsraum' },
+  { src: imgP3, alt: 'Therapiebereich' },
+];
+---
+
+<BaseLayout
+  title="Unsere Praxis"
+  description="Einblicke in unsere modern ausgestattete Physiotherapie-Praxis in Leichlingen-Witzhelden."
+>
+  <!-- Page Header -->
+  <section class="pt-32 pb-16 bg-surface-bg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionHeading label="Praxis" subtitle="Modern ausgestattet, persönlich geführt — für Ihre optimale Behandlung.">
+        Unsere Praxis
+      </SectionHeading>
+    </div>
+  </section>
+
+  <!-- Introduction -->
+  <section class="py-16 bg-white">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center reveal">
+      <p class="text-brand-muted text-lg leading-relaxed">
+        In unserer Praxis in Witzhelden (Leichlingen) erwartet Sie eine einladende Atmosphäre
+        mit modern ausgestatteten Behandlungsräumen. Ob Einzelbehandlung, Gerätetraining oder
+        Wärmeanwendung — bei uns finden Sie alles unter einem Dach, um Ihre Gesundheit zu fördern
+        und Beschwerden nachhaltig zu lindern.
+      </p>
+    </div>
+  </section>
+
+  <!-- Showcase Slider -->
+  <section class="py-16 bg-surface-bg">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 reveal">
+      <!-- Main Image -->
+      <div class="relative rounded-2xl overflow-hidden shadow-lg mb-4" style="aspect-ratio: 16/10;">
+        {gallery.map((img, i) => (
+          <div class={`showcase-slide absolute inset-0 transition-opacity duration-500 ${i === 0 ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} data-slide={i}>
+            <Image
+              src={img.src}
+              alt={img.alt}
+              width={1000}
+              height={625}
+              class="w-full h-full object-cover"
+              loading={i < 2 ? 'eager' : 'lazy'}
+            />
+          </div>
+        ))}
+        <!-- Navigation arrows -->
+        <button
+          id="showcase-prev"
+          class="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm shadow-md flex items-center justify-center text-brand-dark hover:bg-white transition-all duration-200"
+          aria-label="Vorheriges Bild"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <button
+          id="showcase-next"
+          class="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm shadow-md flex items-center justify-center text-brand-dark hover:bg-white transition-all duration-200"
+          aria-label="Nächstes Bild"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+        <!-- Dot indicators (mobile) -->
+        <div class="sm:hidden absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
+          {gallery.map((_, i) => (
+            <button
+              class={`showcase-dot w-2 h-2 rounded-full transition-all duration-200 ${i === 0 ? 'bg-white w-6' : 'bg-white/50'}`}
+              data-dot={i}
+              aria-label={`Bild ${i + 1}`}
+            />
+          ))}
+        </div>
+      </div>
+
+      <!-- Thumbnails -->
+      <div class="hidden sm:flex flex-wrap justify-center gap-2">
+        {gallery.map((img, i) => (
+          <button
+            class={`showcase-thumb rounded-xl overflow-hidden aspect-square border-2 transition-all duration-200 w-20 lg:w-24 ${i === 0 ? 'border-brand-primary ring-2 ring-brand-primary/20' : 'border-transparent opacity-60 hover:opacity-100'}`}
+            data-thumb={i}
+            aria-label={img.alt}
+          >
+            <Image
+              src={img.src}
+              alt={img.alt}
+              width={150}
+              height={150}
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+          </button>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTABanner />
+</BaseLayout>
+
+<script is:inline>
+  (function () {
+    function initShowcase() {
+      var slides = document.querySelectorAll('.showcase-slide');
+      var thumbs = document.querySelectorAll('.showcase-thumb');
+      var dots = document.querySelectorAll('.showcase-dot');
+      var prevBtn = document.getElementById('showcase-prev');
+      var nextBtn = document.getElementById('showcase-next');
+      if (!slides.length || !prevBtn || !nextBtn) return;
+
+      var current = 0;
+      var total = slides.length;
+
+      function goTo(index) {
+        if (index < 0) index = total - 1;
+        if (index >= total) index = 0;
+        slides.forEach(function (s, i) {
+          s.style.opacity = i === index ? '1' : '0';
+          s.style.pointerEvents = i === index ? 'auto' : 'none';
+        });
+        thumbs.forEach(function (t, i) {
+          if (i === index) {
+            t.className = t.className.replace('border-transparent', 'border-brand-primary').replace('opacity-60', '');
+            if (t.className.indexOf('ring-2') === -1) t.className += ' ring-2 ring-brand-primary/20';
+          } else {
+            t.className = t.className.replace('border-brand-primary', 'border-transparent').replace('ring-2 ring-brand-primary/20', '');
+            if (t.className.indexOf('opacity-60') === -1) t.className += ' opacity-60';
+          }
+        });
+        dots.forEach(function (d, i) {
+          if (i === index) {
+            d.className = 'showcase-dot w-6 h-2 rounded-full transition-all duration-200 bg-white';
+          } else {
+            d.className = 'showcase-dot w-2 h-2 rounded-full transition-all duration-200 bg-white/50';
+          }
+        });
+        current = index;
+      }
+
+      // Auto-scroll
+      var autoTimer = setInterval(function () { goTo(current + 1); }, 3000);
+      function resetAuto() {
+        clearInterval(autoTimer);
+        autoTimer = setInterval(function () { goTo(current + 1); }, 3000);
+      }
+
+      prevBtn.addEventListener('click', function () { goTo(current - 1); resetAuto(); });
+      nextBtn.addEventListener('click', function () { goTo(current + 1); resetAuto(); });
+
+      thumbs.forEach(function (thumb) {
+        thumb.addEventListener('click', function () {
+          goTo(parseInt(thumb.getAttribute('data-thumb') || '0'));
+          resetAuto();
+        });
+      });
+
+      dots.forEach(function (dot) {
+        dot.addEventListener('click', function () {
+          goTo(parseInt(dot.getAttribute('data-dot') || '0'));
+          resetAuto();
+        });
+      });
+
+      // Touch/swipe on main image
+      var container = slides[0].parentElement;
+      var touchStartX = 0;
+      container.addEventListener('touchstart', function (e) {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+      container.addEventListener('touchend', function (e) {
+        var diff = touchStartX - e.changedTouches[0].screenX;
+        if (Math.abs(diff) > 50) {
+          goTo(diff > 0 ? current + 1 : current - 1);
+          resetAuto();
+        }
+      }, { passive: true });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initShowcase);
+    } else {
+      initShowcase();
+    }
+  })();
+</script>

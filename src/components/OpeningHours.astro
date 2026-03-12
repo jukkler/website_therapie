@@ -1,0 +1,22 @@
+---
+import openingHours from '@data/openingHours.json';
+
+interface Props {
+  compact?: boolean;
+}
+
+const { compact = false } = Astro.props;
+---
+
+<dl class:list={['space-y-2', compact ? 'text-sm' : 'text-base']}>
+  {openingHours.map((h) => (
+    <div class="flex justify-between gap-4">
+      <dt class="font-medium text-brand-dark whitespace-nowrap">
+        {compact ? h.day.slice(0, 2) : h.day}
+      </dt>
+      <dd class:list={['text-right', h.open ? 'text-brand-muted' : 'text-brand-muted/50']}>
+        {h.hours}
+      </dd>
+    </div>
+  ))}
+</dl>

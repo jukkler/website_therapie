@@ -1,0 +1,61 @@
+---
+import { Image } from 'astro:assets';
+import SectionHeading from '@components/ui/SectionHeading.astro';
+import Button from '@components/ui/Button.astro';
+
+import imgStefan from '@assets/team/stefanzi.jpg';
+import imgStefanie from '@assets/team/stefanie2.jpg';
+import imgAngelika from '@assets/team/angel.jpg';
+
+const teamPreview = [
+  { name: 'Stefan Ziesemer', role: 'Inhaber & Physiotherapeut', image: imgStefan },
+  { name: 'Stefanie', role: 'Physiotherapeutin', image: imgStefanie },
+  { name: 'Angelika', role: 'Praxis Managerin', image: imgAngelika },
+];
+---
+
+<section class="py-20 lg:py-28 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="reveal">
+      <SectionHeading
+        label="Unser Team"
+        subtitle="Kompetenz, Erfahrung und Empathie — persönlich für Sie da."
+      >
+        Lernen Sie unser<br />Team kennen
+      </SectionHeading>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-4xl mx-auto">
+      {teamPreview.map((member, i) => (
+        <div class={`reveal stagger-${i + 1} text-center`}>
+          <div class="w-48 h-48 mx-auto rounded-full overflow-hidden shadow-lg border-4 border-white mb-5">
+            {member.image ? (
+              <Image
+                src={member.image}
+                alt={`${member.name} – ${member.role}`}
+                width={384}
+                height={384}
+                class="w-full h-full object-cover"
+                loading="lazy"
+              />
+            ) : (
+              <div class="w-full h-full flex items-center justify-center bg-brand-light">
+                <svg class="w-20 h-20 text-brand-muted/30" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                </svg>
+              </div>
+            )}
+          </div>
+          <h3 class="font-serif text-xl font-bold text-brand-dark">{member.name}</h3>
+          <p class="text-brand-primary text-sm font-medium mt-1">{member.role}</p>
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-10 text-center reveal">
+      <Button href="/team/" variant="secondary">
+        Das ganze Team kennenlernen
+      </Button>
+    </div>
+  </div>
+</section>

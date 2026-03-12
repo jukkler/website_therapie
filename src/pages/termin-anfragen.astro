@@ -1,0 +1,180 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import SectionHeading from '@components/ui/SectionHeading.astro';
+import siteConfig from '@data/siteConfig.json';
+---
+
+<BaseLayout
+  title="Termin anfragen"
+  description="Jetzt online Ihren Wunschtermin im Therapiezentrum Ziesemer anfragen. Einfach, schnell und bequem."
+>
+  <!-- Page Header -->
+  <section class="pt-32 pb-8 bg-surface-bg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionHeading label="Terminanfrage" subtitle="Wählen Sie Ihren Wunschtermin — wir melden uns zeitnah zur Bestätigung.">
+        Termin anfragen
+      </SectionHeading>
+    </div>
+  </section>
+
+  <!-- Widget -->
+  <section class="py-8 pb-16 bg-surface-bg">
+    <div class="max-w-lg mx-auto px-4 sm:px-6">
+      <!-- Info Box -->
+      <div class="mb-8 bg-white rounded-xl p-5 border border-surface-light/30 shadow-sm reveal">
+        <p class="text-brand-muted text-sm leading-relaxed">
+          <strong class="text-brand-dark">Hinweis:</strong> Dies ist eine Terminanfrage, keine verbindliche Buchung.
+          Wir bestätigen Ihren Termin telefonisch oder per E-Mail.
+        </p>
+        <p class="mt-3 text-sm text-brand-muted">
+          Für akute Anliegen erreichen Sie uns auch telefonisch unter
+          <a href={siteConfig.phoneHref} class="text-brand-primary font-semibold hover:underline">
+            {siteConfig.phone}
+          </a>.
+        </p>
+      </div>
+
+      <!-- Widget Container -->
+      <div
+        id="widget-container"
+        class="reveal rounded-2xl overflow-hidden shadow-lg bg-white"
+        style="min-height: 500px; transition: min-height 0.3s ease-out;"
+      >
+        <!-- Loading Skeleton -->
+        <div id="widget-skeleton" class="p-6 animate-pulse">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 bg-surface-light/40 rounded-lg"></div>
+            <div class="h-4 w-48 bg-surface-light/40 rounded"></div>
+          </div>
+          <div class="h-5 w-40 bg-surface-light/40 rounded mb-2"></div>
+          <div class="h-4 w-64 bg-surface-light/40 rounded mb-6"></div>
+          <div class="grid grid-cols-2 gap-2">
+            <div class="h-10 bg-surface-light/40 rounded-md"></div>
+            <div class="h-10 bg-surface-light/40 rounded-md"></div>
+            <div class="h-10 bg-surface-light/40 rounded-md"></div>
+            <div class="h-10 bg-surface-light/40 rounded-md"></div>
+            <div class="h-10 bg-surface-light/40 rounded-md"></div>
+            <div class="h-10 bg-surface-light/40 rounded-md"></div>
+          </div>
+        </div>
+
+        <!-- iFrame (hidden until widget reports its height) -->
+        <iframe
+          id="widget-iframe"
+          src={siteConfig.widgetUrl}
+          width="100%"
+          frameborder="0"
+          title="Terminanfrage Formular"
+          style="border: none; display: none; width: 100%;"
+        ></iframe>
+
+        <noscript>
+          <div class="p-6 text-center">
+            <p class="text-brand-muted mb-4">
+              Für die Online-Terminanfrage wird JavaScript benötigt.
+            </p>
+            <a
+              href={siteConfig.widgetUrl}
+              target="_blank"
+              rel="noopener"
+              class="inline-flex items-center px-6 py-3 rounded-full bg-brand-primary text-white font-semibold hover:bg-brand-dark transition-all duration-200"
+            >
+              Terminportal direkt öffnen
+            </a>
+          </div>
+        </noscript>
+      </div>
+
+      <!-- Fallback Link -->
+      <p class="mt-4 text-center text-sm text-brand-muted">
+        Probleme mit der Anzeige?
+        <a
+          href={siteConfig.widgetUrl}
+          target="_blank"
+          rel="noopener"
+          class="text-brand-primary hover:underline"
+        >
+          Terminportal direkt öffnen
+        </a>
+      </p>
+
+      <!-- postMessage Bridge -->
+      <script>
+        function initWidgetBridge() {
+          const ALLOWED_ORIGIN = "https://kalender.therapiezentrum-ziesemer.de";
+          const container = document.getElementById("widget-container");
+          const skeleton = document.getElementById("widget-skeleton");
+          /** @type {HTMLIFrameElement | null} */
+          const iframe = document.getElementById("widget-iframe");
+
+          if (!container || !iframe) return;
+
+          let heightReceived = false;
+
+          window.addEventListener("message", (event) => {
+            if (event.origin !== ALLOWED_ORIGIN) return;
+
+            const data = event.data;
+            if (!data || data.type !== "physiobook-widget") return;
+
+            if (data.event === "resize" && typeof data.height === "number") {
+              const height = Math.min(Math.max(data.height, 200), 2000);
+              iframe.style.height = height + "px";
+              container.style.minHeight = height + "px";
+
+              if (!heightReceived) {
+                heightReceived = true;
+                if (skeleton) skeleton.style.display = "none";
+                iframe.style.display = "block";
+              }
+            }
+          });
+
+          // Fallback: show iframe with default height if no postMessage arrives
+          setTimeout(() => {
+            if (!heightReceived) {
+              iframe.style.height = "700px";
+              iframe.style.display = "block";
+              if (skeleton) skeleton.style.display = "none";
+            }
+          }, 5000);
+        }
+
+        document.addEventListener("DOMContentLoaded", initWidgetBridge);
+        document.addEventListener("astro:after-swap", initWidgetBridge);
+      </script>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="py-16 bg-white">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="font-serif text-2xl font-bold text-brand-dark mb-8 text-center">Häufige Fragen</h2>
+      <div class="space-y-6">
+        {[
+          {
+            q: 'Was muss ich zum ersten Termin mitbringen?',
+            a: 'Bitte bringen Sie Ihr Rezept (Verordnung), Ihre Versichertenkarte und bequeme Kleidung mit.',
+          },
+          {
+            q: 'Wie lange dauert ein Behandlungstermin?',
+            a: 'Die Behandlungsdauer richtet sich nach Ihrer Verordnung. In der Regel dauert eine Sitzung zwischen 20 und 60 Minuten.',
+          },
+          {
+            q: 'Kann ich einen Termin absagen oder verschieben?',
+            a: 'Ja, bitte informieren Sie uns mindestens 24 Stunden vorher telefonisch oder per E-Mail.',
+          },
+          {
+            q: 'Werden die Kosten von der Krankenkasse übernommen?',
+            a: 'Mit einer ärztlichen Verordnung übernehmen gesetzliche und private Krankenkassen die Behandlungskosten (ggf. abzüglich gesetzlicher Zuzahlung).',
+          },
+        ].map((faq) => (
+          <div class="reveal bg-surface-bg rounded-xl p-6">
+            <h3 class="font-semibold text-brand-dark mb-2">{faq.q}</h3>
+            <p class="text-brand-muted text-sm leading-relaxed">{faq.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

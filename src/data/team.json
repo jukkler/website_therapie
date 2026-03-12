@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Stefan Ziesemer",
+    "role": "Inhaber & Physiotherapeut",
+    "image": "stefanzi.jpg",
+    "description": "Als Gründer und Inhaber des Therapiezentrums verbindet Stefan Ziesemer langjährige Erfahrung mit persönlicher Zuwendung. Seine Schwerpunkte liegen in der Dorn-Therapie und der manuellen Behandlung von Beschwerden des Bewegungsapparats."
+  },
+  {
+    "name": "Stefanie",
+    "role": "Physiotherapeutin",
+    "image": "stefanie2.jpg",
+    "description": "Stefanie ergänzt unser Team mit Fachkompetenz und Einfühlungsvermögen. Sie betreut unsere Patient:innen in der Krankengymnastik und Massagetherapie."
+  },
+  {
+    "name": "Angelika",
+    "role": "Praxis Managerin",
+    "image": "angel.jpg",
+    "description": "Angelika sorgt dafür, dass in unserer Praxis alles reibungslos läuft. Sie ist Ihre erste Ansprechpartnerin bei Terminvereinbarungen und organisatorischen Fragen."
+  }
+]

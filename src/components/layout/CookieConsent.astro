@@ -1,0 +1,121 @@
+---
+---
+
+<div
+  id="cookie-banner"
+  class="fixed bottom-0 inset-x-0 z-[60] transform translate-y-full transition-transform duration-300 ease-out md:bottom-4 md:left-4 md:right-auto md:max-w-md"
+  role="dialog"
+  aria-label="Cookie-Einstellungen"
+  aria-hidden="true"
+>
+  <div class="bg-white border border-surface-light/50 shadow-2xl rounded-t-2xl md:rounded-2xl p-6">
+    <h3 class="font-serif font-bold text-brand-dark text-lg mb-2">Cookie-Einstellungen</h3>
+    <p class="text-sm text-brand-muted mb-4 leading-relaxed">
+      Wir verwenden Cookies und externe Dienste (z.&nbsp;B. Google Maps) zur Verbesserung Ihres Erlebnisses.
+      Weitere Informationen finden Sie in unserer
+      <a href="/datenschutz/" class="text-brand-primary hover:underline">Datenschutzerklärung</a>.
+    </p>
+
+    <div class="space-y-3 mb-5">
+      <label class="flex items-center gap-3">
+        <input type="checkbox" checked disabled class="w-4 h-4 rounded accent-brand-primary" />
+        <span class="text-sm text-brand-dark">
+          <strong>Notwendig</strong>
+          <span class="text-brand-muted"> — immer aktiv</span>
+        </span>
+      </label>
+      <label class="flex items-center gap-3 cursor-pointer">
+        <input
+          type="checkbox"
+          id="cookie-maps"
+          class="w-4 h-4 rounded accent-brand-primary"
+        />
+        <span class="text-sm text-brand-dark">
+          <strong>Externe Medien</strong>
+          <span class="text-brand-muted"> — Google Maps</span>
+        </span>
+      </label>
+    </div>
+
+    <div class="flex gap-3">
+      <button
+        id="cookie-reject"
+        class="flex-1 px-4 py-2.5 rounded-full border-2 border-brand-dark/20 text-brand-dark text-sm font-medium hover:bg-surface-bg transition-colors"
+      >
+        Nur notwendige
+      </button>
+      <button
+        id="cookie-accept"
+        class="flex-1 px-4 py-2.5 rounded-full bg-brand-primary text-white text-sm font-semibold hover:bg-brand-dark transition-colors"
+      >
+        Alle akzeptieren
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function initCookieConsent() {
+    const banner = document.getElementById('cookie-banner');
+    const acceptBtn = document.getElementById('cookie-accept');
+    const rejectBtn = document.getElementById('cookie-reject');
+    const mapsCheckbox = document.getElementById('cookie-maps') as HTMLInputElement;
+    const settingsBtn = document.getElementById('cookie-settings-btn');
+
+    if (!banner || !acceptBtn || !rejectBtn || !mapsCheckbox) return;
+
+    const consent = localStorage.getItem('cookie-consent');
+
+    function showBanner() {
+      banner.classList.remove('translate-y-full');
+      banner.setAttribute('aria-hidden', 'false');
+    }
+
+    function hideBanner() {
+      banner.classList.add('translate-y-full');
+      banner.setAttribute('aria-hidden', 'true');
+    }
+
+    function saveConsent(maps: boolean) {
+      localStorage.setItem('cookie-consent', JSON.stringify({ maps, date: new Date().toISOString() }));
+      hideBanner();
+      if (maps) {
+        document.querySelectorAll('[data-consent-maps]').forEach((el) => {
+          el.setAttribute('data-consent-granted', 'true');
+          const event = new CustomEvent('consent-granted');
+          el.dispatchEvent(event);
+        });
+      }
+    }
+
+    // Show banner if no consent given
+    if (!consent) {
+      setTimeout(showBanner, 1000);
+    } else {
+      const parsed = JSON.parse(consent);
+      if (parsed.maps) {
+        document.querySelectorAll('[data-consent-maps]').forEach((el) => {
+          el.setAttribute('data-consent-granted', 'true');
+        });
+      }
+    }
+
+    acceptBtn.addEventListener('click', () => saveConsent(true));
+    rejectBtn.addEventListener('click', () => saveConsent(false));
+
+    // Footer "Cookie-Einstellungen" button
+    if (settingsBtn) {
+      settingsBtn.addEventListener('click', () => {
+        const existing = localStorage.getItem('cookie-consent');
+        if (existing) {
+          const parsed = JSON.parse(existing);
+          mapsCheckbox.checked = parsed.maps;
+        }
+        showBanner();
+      });
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', initCookieConsent);
+  document.addEventListener('astro:after-swap', initCookieConsent);
+</script>

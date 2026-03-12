@@ -1,0 +1,131 @@
+---
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/inter/700.css';
+import '@fontsource/lora/400.css';
+import '@fontsource/lora/500.css';
+import '@fontsource/lora/600.css';
+import '@fontsource/lora/700.css';
+import '@/styles/global.css';
+
+import Header from '@components/layout/Header.astro';
+import Footer from '@components/layout/Footer.astro';
+import MobileCTABar from '@components/layout/MobileCTABar.astro';
+import CookieConsent from '@components/layout/CookieConsent.astro';
+import { getPageTitle, generateLocalBusinessSchema } from '@utils/seo';
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonical?: string;
+}
+
+const {
+  title,
+  description = 'Ihre Praxis für Physiotherapie und Krankengymnastik in Leichlingen-Witzhelden. Termin anfragen: 02174/892426',
+  canonical,
+} = Astro.props;
+
+const pageTitle = getPageTitle(title);
+const canonicalUrl = canonical || new URL(Astro.url.pathname, Astro.site).href;
+const schemaJson = JSON.stringify(generateLocalBusinessSchema());
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:site_name" content="Therapiezentrum Ziesemer" />
+
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json" set:html={schemaJson} />
+  </head>
+
+  <body class="min-h-screen bg-white flex flex-col">
+    <!-- Scroll sentinel for sticky header -->
+    <div id="scroll-sentinel" class="h-0 w-full"></div>
+
+    <Header />
+
+    <main class="flex-1">
+      <slot />
+    </main>
+
+    <Footer />
+    <MobileCTABar />
+    <CookieConsent />
+
+    <!-- ScrollReveal + Sticky Header Script -->
+    <script>
+      function initScrollReveal() {
+        const reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-fade');
+        if (!reveals.length) return;
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('revealed');
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+        );
+
+        reveals.forEach((el) => observer.observe(el));
+      }
+
+      function initStickyHeader() {
+        const sentinel = document.getElementById('scroll-sentinel');
+        const header = document.getElementById('site-header');
+        if (!sentinel || !header) return;
+
+        const menu = document.getElementById('mobile-menu');
+        function updateHeaderHeight() {
+          if (menu) {
+            menu.style.top = header.offsetHeight + 'px';
+          }
+        }
+        const observer = new IntersectionObserver(
+          ([entry]) => {
+            header.classList.toggle('header--compact', !entry.isIntersecting);
+            updateHeaderHeight();
+          },
+          { threshold: 0 }
+        );
+        updateHeaderHeight();
+
+        observer.observe(sentinel);
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        initScrollReveal();
+        initStickyHeader();
+      });
+
+      // Re-run on Astro page transitions
+      document.addEventListener('astro:after-swap', () => {
+        initScrollReveal();
+        initStickyHeader();
+      });
+    </script>
+  </body>
+</html>

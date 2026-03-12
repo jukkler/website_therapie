@@ -1,0 +1,65 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import SectionHeading from '@components/ui/SectionHeading.astro';
+import TeamMemberCard from '@components/TeamMemberCard.astro';
+import CTABanner from '@components/home/CTABanner.astro';
+import teamData from '@data/team.json';
+
+const imageModules = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/assets/team/*.{jpg,jpeg,JPG,png,webp}',
+  { eager: true }
+);
+
+function getImage(filename: string | null): ImageMetadata | undefined {
+  if (!filename) return undefined;
+  const key = `/src/assets/team/${filename}`;
+  return imageModules[key]?.default;
+}
+---
+
+<BaseLayout
+  title="Unser Team"
+  description="Lernen Sie unser Team kennen: kompetent, erfahren und empathisch. Physiotherapie in Leichlingen-Witzhelden."
+>
+  <!-- Page Header -->
+  <section class="pt-32 pb-16 bg-surface-bg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionHeading label="Team" subtitle="Kompetenz, Erfahrung und Empathie — persönlich für Sie und Ihre Gesundheit da.">
+        Unser Team
+      </SectionHeading>
+    </div>
+  </section>
+
+  <!-- Team Grid -->
+  <section class="py-16 bg-white">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {teamData.map((member, i) => (
+          <div class={`reveal stagger-${i + 1}`}>
+            <TeamMemberCard
+              name={member.name}
+              role={member.role}
+              description={member.description}
+              imageSrc={getImage(member.image)}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Philosophy -->
+  <section class="py-16 bg-surface-bg">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center reveal">
+      <h2 class="font-serif text-2xl font-bold text-brand-dark mb-4">Unsere Philosophie</h2>
+      <p class="text-brand-muted text-lg leading-relaxed">
+        Im Therapiezentrum Ziesemer stehen Sie als Mensch im Mittelpunkt. Wir nehmen uns Zeit,
+        hören zu und entwickeln gemeinsam mit Ihnen einen individuellen Behandlungsplan.
+        Unser Ziel ist es, nicht nur Symptome zu behandeln, sondern nachhaltige Besserung
+        zu erreichen.
+      </p>
+    </div>
+  </section>
+
+  <CTABanner />
+</BaseLayout>

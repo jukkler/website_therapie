@@ -1,0 +1,227 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import SectionHeading from '@components/ui/SectionHeading.astro';
+import ServiceCard from '@components/ServiceCard.astro';
+import CTABanner from '@components/home/CTABanner.astro';
+import { getCollection } from 'astro:content';
+
+const leistungen = (await getCollection('leistungen')).sort(
+  (a, b) => a.data.order - b.data.order
+);
+
+// Map image filenames to imports
+const imageModules = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/assets/leistungen/*.{jpg,jpeg,JPG,png,webp}',
+  { eager: true }
+);
+
+function getImage(filename: string): ImageMetadata {
+  const key = `/src/assets/leistungen/${filename}`;
+  const mod = imageModules[key];
+  if (!mod) {
+    throw new Error(`Image not found: ${key}`);
+  }
+  return mod.default;
+}
+---
+
+<BaseLayout
+  title="Leistungen"
+  description="Dorn-Therapie, Krankengymnastik, Lymphdrainage, Massagetherapie und mehr. Entdecken Sie unser Leistungsspektrum."
+>
+  <!-- Page Header -->
+  <section class="pt-32 pb-16 bg-surface-bg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionHeading label="Leistungen" subtitle="Wir bieten Ihnen ein breites Spektrum an physiotherapeutischen Behandlungen — individuell auf Ihre Bedürfnisse abgestimmt.">
+        Unsere Leistungen
+      </SectionHeading>
+    </div>
+  </section>
+
+  <!-- Services Carousel -->
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="relative">
+        <!-- Navigation Arrows -->
+        <button
+          id="carousel-prev"
+          class="absolute -left-4 lg:-left-6 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white shadow-lg border border-surface-light/30 flex items-center justify-center text-brand-dark hover:bg-brand-primary hover:text-white hover:border-brand-primary transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-brand-dark disabled:hover:border-surface-light/30"
+          aria-label="Vorherige Leistung"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <button
+          id="carousel-next"
+          class="absolute -right-4 lg:-right-6 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white shadow-lg border border-surface-light/30 flex items-center justify-center text-brand-dark hover:bg-brand-primary hover:text-white hover:border-brand-primary transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-brand-dark disabled:hover:border-surface-light/30"
+          aria-label="Nächste Leistung"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+
+        <!-- Carousel Track -->
+        <div id="carousel-track" class="overflow-hidden pb-4 -mb-4">
+          <div id="carousel-slides" class="flex items-stretch transition-transform duration-500 ease-out" style="gap: 1.5rem;">
+            {leistungen.map((leistung) => (
+              <div class="carousel-slide flex-shrink-0" style="width: calc(33.333% - 1rem);">
+                <ServiceCard
+                  title={leistung.data.title}
+                  description={leistung.data.description}
+                  imageSrc={getImage(leistung.data.image)}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Dot Indicators -->
+        <div id="carousel-dots" class="flex justify-center gap-2 mt-8">
+          {leistungen.map((_, i) => (
+            <button
+              class:list={[
+                'carousel-dot w-2.5 h-2.5 rounded-full transition-all duration-200',
+                i === 0 ? 'bg-brand-primary w-8' : 'bg-brand-primary/20 hover:bg-brand-primary/40',
+              ]}
+              data-index={i}
+              aria-label={`Leistung ${i + 1}`}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hinweis -->
+  <section class="py-16 bg-surface-bg">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center reveal">
+      <h2 class="font-serif text-2xl font-bold text-brand-dark mb-4">Alle Kassen und Privat</h2>
+      <p class="text-brand-muted text-lg leading-relaxed">
+        Wir behandeln sowohl gesetzlich als auch privat versicherte Patient:innen.
+        Bringen Sie bitte Ihr Rezept und Ihre Versichertenkarte zum ersten Termin mit.
+      </p>
+    </div>
+  </section>
+
+  <CTABanner />
+</BaseLayout>
+
+<style>
+  @media (max-width: 639px) {
+    .carousel-slide {
+      width: calc(100% - 0rem) !important;
+    }
+  }
+  @media (min-width: 640px) and (max-width: 1023px) {
+    .carousel-slide {
+      width: calc(50% - 0.75rem) !important;
+    }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    function initCarousel() {
+      var track = document.getElementById('carousel-slides');
+      var prevBtn = document.getElementById('carousel-prev');
+      var nextBtn = document.getElementById('carousel-next');
+      var dots = document.querySelectorAll('.carousel-dot');
+      if (!track || !prevBtn || !nextBtn) return;
+
+      var slides = track.querySelectorAll('.carousel-slide');
+      var totalSlides = slides.length;
+      var currentIndex = 0;
+
+      function getSlidesPerView() {
+        if (window.innerWidth < 640) return 1;
+        if (window.innerWidth < 1024) return 2;
+        return 3;
+      }
+
+      var slidesPerView = getSlidesPerView();
+
+      function getMaxIndex() {
+        return Math.max(0, totalSlides - slidesPerView);
+      }
+
+      function updateCarousel() {
+        var slide = slides[0];
+        var gap = 24;
+        var slideWidth = slide.offsetWidth + gap;
+        var offset = currentIndex * slideWidth;
+        track.style.transform = 'translateX(-' + offset + 'px)';
+
+        prevBtn.disabled = currentIndex <= 0;
+        nextBtn.disabled = currentIndex >= getMaxIndex();
+
+        dots.forEach(function (dot, i) {
+          if (i === currentIndex) {
+            dot.style.width = '2rem';
+            dot.style.backgroundColor = '';
+            dot.className = 'carousel-dot w-8 h-2.5 rounded-full transition-all duration-200 bg-brand-primary';
+          } else {
+            dot.style.width = '';
+            dot.style.backgroundColor = '';
+            dot.className = 'carousel-dot w-2.5 h-2.5 rounded-full transition-all duration-200 bg-brand-primary/20';
+          }
+        });
+      }
+
+      prevBtn.addEventListener('click', function () {
+        if (currentIndex > 0) {
+          currentIndex--;
+          updateCarousel();
+        }
+      });
+
+      nextBtn.addEventListener('click', function () {
+        if (currentIndex < getMaxIndex()) {
+          currentIndex++;
+          updateCarousel();
+        }
+      });
+
+      dots.forEach(function (dot) {
+        dot.addEventListener('click', function () {
+          var index = parseInt(dot.getAttribute('data-index') || '0');
+          currentIndex = Math.min(index, getMaxIndex());
+          updateCarousel();
+        });
+      });
+
+      // Touch/swipe support
+      var touchStartX = 0;
+      track.addEventListener('touchstart', function (e) {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+
+      track.addEventListener('touchend', function (e) {
+        var diff = touchStartX - e.changedTouches[0].screenX;
+        if (Math.abs(diff) > 50) {
+          if (diff > 0 && currentIndex < getMaxIndex()) {
+            currentIndex++;
+          } else if (diff < 0 && currentIndex > 0) {
+            currentIndex--;
+          }
+          updateCarousel();
+        }
+      }, { passive: true });
+
+      window.addEventListener('resize', function () {
+        slidesPerView = getSlidesPerView();
+        currentIndex = Math.min(currentIndex, getMaxIndex());
+        updateCarousel();
+      });
+
+      updateCarousel();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initCarousel);
+    } else {
+      initCarousel();
+    }
+  })();
+</script>

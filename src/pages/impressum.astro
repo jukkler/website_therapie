@@ -1,0 +1,64 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import siteConfig from '@data/siteConfig.json';
+---
+
+<BaseLayout title="Impressum" description="Impressum des Therapiezentrum Ziesemer, Leichlingen.">
+  <section class="pt-32 pb-20 bg-surface-bg">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center md:text-left">
+      <h1 class="font-serif text-3xl sm:text-4xl font-bold text-brand-dark mb-10">Impressum</h1>
+
+      <div class="prose prose-lg max-w-none text-brand-muted prose-headings:text-brand-dark prose-headings:font-serif prose-a:text-brand-primary">
+        <h2>Angaben gemäß § 5 DDG</h2>
+        <p>
+          Stefan Ziesemer<br />
+          {siteConfig.address.street}<br />
+          {siteConfig.address.zip} {siteConfig.address.city}
+        </p>
+
+        <h2>Kontakt</h2>
+        <p>
+          Telefon: <a href={siteConfig.phoneHref}>{siteConfig.phone}</a><br />
+          E-Mail: <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>
+        </p>
+
+        <h2>Aufsichtsbehörde</h2>
+        <p>
+          Gesundheitsamt des Rheinisch-Bergischen Kreises<br />
+          Am Rübezahlwald 7<br />
+          51469 Bergisch Gladbach
+        </p>
+
+        <h2>Berufsbezeichnung und berufsrechtliche Regelungen</h2>
+        <p>
+          Berufsbezeichnung: Physiotherapeut<br />
+          Zuständige Kammer: Physiotherapeuten sind in Nordrhein-Westfalen nicht kammerpflichtig.<br />
+          Verliehen in: Bundesrepublik Deutschland
+        </p>
+        <p>
+          Es gelten folgende berufsrechtliche Regelungen:
+          Gesetz über die Berufe in der Physiotherapie (Masseur- und Physiotherapeutengesetz – MPhG)<br />
+          Die Regelungen sind einsehbar unter:
+          <a href="https://www.gesetze-im-internet.de/mphg/" target="_blank" rel="noopener">
+            https://www.gesetze-im-internet.de/mphg/
+          </a>
+        </p>
+
+        <h2>EU-Streitschlichtung</h2>
+        <p>
+          Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:
+          <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener">
+            https://ec.europa.eu/consumers/odr
+          </a>.
+          Unsere E-Mail-Adresse finden Sie oben im Impressum.
+        </p>
+
+        <h2>Verbraucherstreitbeilegung / Universalschlichtungsstelle</h2>
+        <p>
+          Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer
+          Verbraucherschlichtungsstelle teilzunehmen.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

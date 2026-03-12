@@ -1,0 +1,118 @@
+---
+import { Image } from 'astro:assets';
+import Button from '@components/ui/Button.astro';
+import heroImage from '@assets/hero/stefan_hero.png';
+---
+
+<!-- Hero Section -->
+<section class="bg-white overflow-hidden">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <!-- Left: Text Content -->
+      <div class="hero-content text-center lg:text-left">
+        <span class="inline-block text-sm font-semibold tracking-wide uppercase text-brand-primary mb-4 hero-title">
+          Therapiezentrum Ziesemer
+        </span>
+        <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-brand-dark leading-tight hero-title">
+          Ihre Praxis für<br />
+          <span class="text-brand-primary">Physiotherapie</span><br />
+          in Witzhelden
+        </h1>
+        <p class="mt-6 text-lg sm:text-xl text-brand-muted leading-relaxed hero-subtitle">
+          Persönlich, kompetent und nah. Seit Jahren Ihr Partner
+          für Krankengymnastik und ganzheitliche Behandlung.
+        </p>
+        <div class="mt-8 flex flex-wrap justify-center lg:justify-start gap-4 hero-cta">
+          <Button href="/termin-anfragen/" size="lg">
+            Termin anfragen
+          </Button>
+          <Button href="/leistungen/" variant="secondary" size="lg">
+            Unsere Leistungen
+          </Button>
+        </div>
+      </div>
+
+      <!-- Right: Person Image -->
+      <div class="relative hero-image flex justify-center lg:justify-end">
+        <div class="relative">
+          <!-- Decorative blob behind image -->
+          <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[88%] h-[75%] rounded-[3rem] bg-brand-light"></div>
+          <Image
+            src={heroImage}
+            alt="Stefan Ziesemer – Physiotherapeut"
+            width={550}
+            height={600}
+            class="relative w-full max-w-md lg:max-w-lg h-auto object-contain drop-shadow-xl"
+            loading="eager"
+            fetchpriority="high"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats Bar -->
+<section class="bg-surface-bg py-8 lg:py-10">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+      {[
+        { number: '20+', label: 'Jahre Erfahrung' },
+        { number: '7', label: 'Behandlungsangebote' },
+        { number: '1000+', label: 'Zufriedene Patienten' },
+        { number: '6', label: 'Tage die Woche' },
+      ].map((stat) => (
+        <div>
+          <p class="text-3xl lg:text-4xl font-bold text-brand-primary">{stat.number}</p>
+          <p class="mt-1 text-sm text-brand-muted">{stat.label}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Hero entrance animation */
+  .hero-title {
+    animation: heroSlideUp 0.8s ease-out both;
+  }
+  .hero-subtitle {
+    animation: heroSlideUp 0.8s ease-out 0.15s both;
+  }
+  .hero-cta {
+    animation: heroSlideUp 0.8s ease-out 0.3s both;
+  }
+  .hero-image {
+    animation: heroFadeIn 1s ease-out 0.2s both;
+  }
+
+  @keyframes heroSlideUp {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes heroFadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-title, .hero-subtitle, .hero-cta, .hero-image {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>

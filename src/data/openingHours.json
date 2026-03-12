@@ -1,0 +1,9 @@
+[
+  { "day": "Montag", "hours": "08:30 – 12:30 Uhr und 15:00 – 20:00 Uhr", "open": true },
+  { "day": "Dienstag", "hours": "08:30 – 12:30 Uhr und 15:00 – 20:00 Uhr", "open": true },
+  { "day": "Mittwoch", "hours": "08:30 – 12:30 Uhr und 15:00 – 20:00 Uhr", "open": true },
+  { "day": "Donnerstag", "hours": "08:30 – 12:30 Uhr und 15:00 – 20:00 Uhr", "open": true },
+  { "day": "Freitag", "hours": "08:30 – 12:30 Uhr und 15:00 – 20:00 Uhr", "open": true },
+  { "day": "Samstag", "hours": "10:00 – 13:00 Uhr", "open": true },
+  { "day": "Sonntag", "hours": "Geschlossen", "open": false }
+]

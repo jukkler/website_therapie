@@ -1,0 +1,256 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import SectionHeading from '@components/ui/SectionHeading.astro';
+import OpeningHours from '@components/OpeningHours.astro';
+import siteConfig from '@data/siteConfig.json';
+---
+
+<BaseLayout
+  title="Kontakt"
+  description="Kontaktieren Sie das Therapiezentrum Ziesemer: 02174/892426 oder per E-Mail. Am Krähwinkeler Bach 6, Leichlingen."
+>
+  <!-- Page Header -->
+  <section class="pt-32 pb-16 bg-surface-bg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionHeading label="Kontakt" subtitle="Wir freuen uns auf Ihre Nachricht — oder rufen Sie einfach an.">
+        Kontakt
+      </SectionHeading>
+    </div>
+  </section>
+
+  <!-- Contact Content -->
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <!-- Contact Info -->
+        <div class="reveal text-center lg:text-left">
+          <h2 class="font-serif text-2xl font-bold text-brand-dark mb-6">So erreichen Sie uns</h2>
+
+          <div class="space-y-5 mb-8 inline-block text-left">
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-lg bg-brand-primary/10 flex items-center justify-center shrink-0">
+                <svg class="w-5 h-5 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </div>
+              <div>
+                <p class="font-semibold text-brand-dark">Adresse</p>
+                <p class="text-brand-muted">
+                  {siteConfig.address.street}<br />
+                  {siteConfig.address.zip} {siteConfig.address.city}
+                </p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-lg bg-brand-primary/10 flex items-center justify-center shrink-0">
+                <svg class="w-5 h-5 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+              </div>
+              <div>
+                <p class="font-semibold text-brand-dark">Telefon</p>
+                <a href={siteConfig.phoneHref} class="text-brand-primary hover:underline">
+                  {siteConfig.phone}
+                </a>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-lg bg-brand-primary/10 flex items-center justify-center shrink-0">
+                <svg class="w-5 h-5 text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <div>
+                <p class="font-semibold text-brand-dark">E-Mail</p>
+                <a href={`mailto:${siteConfig.email}`} class="text-brand-primary hover:underline">
+                  {siteConfig.email}
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <h3 class="font-serif text-xl font-bold text-brand-dark mb-4">Öffnungszeiten</h3>
+          <div class="inline-block text-left w-full max-w-xs lg:max-w-none">
+            <OpeningHours />
+          </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="reveal stagger-2 text-center lg:text-left">
+          <h2 class="font-serif text-2xl font-bold text-brand-dark mb-6">Nachricht senden</h2>
+          <form
+            action={`mailto:${siteConfig.email}`}
+            method="POST"
+            enctype="text/plain"
+            class="space-y-4 text-left"
+          >
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="vorname" class="block text-sm font-medium text-brand-dark mb-1">Vorname *</label>
+                <input
+                  type="text"
+                  id="vorname"
+                  name="vorname"
+                  required
+                  class="w-full px-4 py-3 rounded-xl border border-surface-light bg-white text-brand-dark placeholder-brand-muted/50 focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 transition-colors"
+                  placeholder="Max"
+                />
+              </div>
+              <div>
+                <label for="nachname" class="block text-sm font-medium text-brand-dark mb-1">Nachname *</label>
+                <input
+                  type="text"
+                  id="nachname"
+                  name="nachname"
+                  required
+                  class="w-full px-4 py-3 rounded-xl border border-surface-light bg-white text-brand-dark placeholder-brand-muted/50 focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 transition-colors"
+                  placeholder="Mustermann"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label for="email" class="block text-sm font-medium text-brand-dark mb-1">E-Mail *</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                class="w-full px-4 py-3 rounded-xl border border-surface-light bg-white text-brand-dark placeholder-brand-muted/50 focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 transition-colors"
+                placeholder="max@beispiel.de"
+              />
+            </div>
+
+            <div>
+              <label for="betreff" class="block text-sm font-medium text-brand-dark mb-1">Betreff *</label>
+              <input
+                type="text"
+                id="betreff"
+                name="betreff"
+                required
+                class="w-full px-4 py-3 rounded-xl border border-surface-light bg-white text-brand-dark placeholder-brand-muted/50 focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 transition-colors"
+                placeholder="Ihre Anfrage"
+              />
+            </div>
+
+            <div>
+              <label for="nachricht" class="block text-sm font-medium text-brand-dark mb-1">Nachricht *</label>
+              <textarea
+                id="nachricht"
+                name="nachricht"
+                rows="5"
+                required
+                class="w-full px-4 py-3 rounded-xl border border-surface-light bg-white text-brand-dark placeholder-brand-muted/50 focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 transition-colors resize-y"
+                placeholder="Ihre Nachricht an uns..."
+              ></textarea>
+            </div>
+
+            <label class="flex items-start gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                required
+                class="mt-1 w-4 h-4 rounded accent-brand-primary"
+              />
+              <span class="text-sm text-brand-muted leading-relaxed">
+                Ich habe die <a href="/datenschutz/" class="text-brand-primary hover:underline">Datenschutzerklärung</a>
+                gelesen und stimme der Verarbeitung meiner Daten zur Bearbeitung meiner Anfrage zu. *
+              </span>
+            </label>
+
+            <button
+              type="submit"
+              class="w-full px-6 py-3 rounded-full bg-brand-primary text-white font-semibold hover:bg-brand-dark transition-all duration-200"
+            >
+              Nachricht senden
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Google Maps -->
+  <section class="py-16 bg-surface-bg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="font-serif text-2xl font-bold text-brand-dark mb-6 text-center reveal">Anfahrt</h2>
+      <div class="reveal rounded-2xl overflow-hidden shadow-lg" data-consent-maps>
+        <!-- Placeholder before consent -->
+        <div class="maps-placeholder bg-surface-light/20 flex flex-col items-center justify-center py-16 px-8 text-center" style="min-height: 400px;">
+          <svg class="w-16 h-16 text-brand-muted/30 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+          <p class="text-brand-muted mb-4">
+            Zum Anzeigen der Karte müssen externe Medien (Google Maps) in den Cookie-Einstellungen aktiviert werden.
+          </p>
+          <button
+            class="maps-consent-btn px-5 py-2.5 rounded-full bg-brand-primary text-white font-semibold text-sm hover:bg-brand-dark transition-all duration-200"
+          >
+            Google Maps aktivieren
+          </button>
+        </div>
+        <!-- Map (loaded after consent) -->
+        <div class="maps-embed hidden" style="min-height: 400px;">
+          <iframe
+            data-src={siteConfig.googleMapsEmbed}
+            width="100%"
+            height="400"
+            style="border:0; min-height: 400px;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Standort Therapiezentrum Ziesemer auf Google Maps"
+          ></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  function initMaps() {
+    const mapContainers = document.querySelectorAll('[data-consent-maps]');
+
+    mapContainers.forEach((container) => {
+      const placeholder = container.querySelector('.maps-placeholder') as HTMLElement;
+      const embed = container.querySelector('.maps-embed') as HTMLElement;
+      const iframe = embed?.querySelector('iframe');
+      const consentBtn = container.querySelector('.maps-consent-btn');
+
+      if (!placeholder || !embed || !iframe) return;
+
+      function loadMap() {
+        const src = iframe!.getAttribute('data-src');
+        if (src) {
+          iframe!.src = src;
+          iframe!.removeAttribute('data-src');
+        }
+        placeholder!.classList.add('hidden');
+        embed!.classList.remove('hidden');
+      }
+
+      // Check if consent already granted
+      if (container.getAttribute('data-consent-granted') === 'true') {
+        loadMap();
+      }
+
+      // Listen for consent events
+      container.addEventListener('consent-granted', loadMap);
+
+      // Direct consent button
+      consentBtn?.addEventListener('click', () => {
+        localStorage.setItem(
+          'cookie-consent',
+          JSON.stringify({ maps: true, date: new Date().toISOString() })
+        );
+        loadMap();
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initMaps);
+  document.addEventListener('astro:after-swap', initMaps);
+</script>
