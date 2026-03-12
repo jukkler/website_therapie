@@ -3,24 +3,32 @@ import SectionHeading from '@components/ui/SectionHeading.astro';
 
 const services = [
   {
-    title: 'Dorn-Therapie',
-    icon: '<svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 2v20M9 5c0-1 1-2 3-2s3 1 3 2M8 9h8M7 13h10M8 17h8" /></svg>',
-  },
-  {
-    title: 'Krankengymnastik',
-    icon: '<svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 5a3 3 0 11-6 0 3 3 0 016 0zM4 20v-1a7 7 0 017-7h0M17 14l2.5 2.5M19.5 16.5L17 19M14 17l-2 3" /></svg>',
-  },
-  {
-    title: 'Manuelle Lymphdrainage',
-    icon: '<svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M7 11.5V14m0 0v2.5M7 14h3m-3 0H4M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>',
-  },
-  {
     title: 'KG am Gerät',
     icon: '<svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12h1m16 0h1M5.5 12a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm13 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3zM7 12h10" /></svg>',
   },
   {
-    title: 'Massagetherapie',
+    title: 'Lymphdrainage',
+    icon: '<svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M7 11.5V14m0 0v2.5M7 14h3m-3 0H4M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>',
+  },
+  {
+    title: 'Med. Gerätetraining',
+    icon: '<svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 5a3 3 0 11-6 0 3 3 0 016 0zM4 20v-1a7 7 0 017-7h0M17 14l2.5 2.5M19.5 16.5L17 19M14 17l-2 3" /></svg>',
+  },
+  {
+    title: 'Klassische Massage',
     icon: '<svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10.05 4.575a1.575 1.575 0 10-3.15 0v3.048a5.074 5.074 0 00-.394.21L4.462 5.79a1.575 1.575 0 10-2.228 2.228l2.043 2.044a5.1 5.1 0 00-.21.394H1.02a1.575 1.575 0 100 3.15h3.048c.058.142.126.28.21.394l-2.043 2.044a1.575 1.575 0 102.228 2.228l2.044-2.043c.114.084.252.152.394.21v3.048a1.575 1.575 0 103.15 0v-3.048a5.1 5.1 0 00.394-.21l2.044 2.043a1.575 1.575 0 102.228-2.228l-2.043-2.044a5.074 5.074 0 00.21-.394h3.048a1.575 1.575 0 100-3.15h-3.048a5.074 5.074 0 00-.21-.394l2.043-2.044a1.575 1.575 0 10-2.228-2.228l-2.044 2.043a5.1 5.1 0 00-.394-.21V4.575z" /></svg>',
+  },
+  {
+    title: 'Dorn-Therapie',
+    icon: '<svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 2v20M9 5c0-1 1-2 3-2s3 1 3 2M8 9h8M7 13h10M8 17h8" /></svg>',
+  },
+  {
+    title: 'Triggerpunkt',
+    icon: '<svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 12m-3 0a3 3 0 106 0 3 3 0 10-6 0M12 12m-8 0a8 8 0 1016 0 8 8 0 10-16 0M12 4v2M12 18v2M4 12h2M18 12h2" /></svg>',
+  },
+  {
+    title: 'Heißluft',
+    icon: '<svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 6.51 6.51 0 009 11.5a3 3 0 105.524-1.637M12 2v3" /></svg>',
   },
   {
     title: 'Schlingentisch',
@@ -44,9 +52,9 @@ const services = [
       </SectionHeading>
     </div>
 
-    <div class="flex flex-wrap justify-center gap-6 lg:gap-8">
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-6 lg:gap-8 max-w-4xl mx-auto">
       {services.map((service, i) => (
-        <div class={`reveal stagger-${(i % 5) + 1} text-center group w-[calc(50%-0.75rem)] sm:w-[calc(33.333%-1rem)] lg:w-[calc(25%-1.5rem)]`}>
+        <div class={`reveal stagger-${(i % 3) + 1} text-center group`}>
           <div class="w-16 h-16 mx-auto rounded-2xl bg-brand-light flex items-center justify-center mb-4 text-brand-primary group-hover:bg-brand-primary group-hover:text-white transition-colors duration-200">
             <Fragment set:html={service.icon} />
           </div>
