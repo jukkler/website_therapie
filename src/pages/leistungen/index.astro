@@ -71,6 +71,7 @@ function getImage(filename: string): ImageMetadata {
                   title={leistung.data.title}
                   description={leistung.data.description}
                   imageSrc={getImage(leistung.data.image)}
+                  href={`/leistungen/${leistung.slug}/`}
                 />
               </div>
             ))}
