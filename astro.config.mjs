@@ -12,6 +12,9 @@ export default defineConfig({
         defaultLocale: 'de',
         locales: { de: 'de-DE' },
       },
+      filter: (page) =>
+        !page.includes('/datenschutz/') &&
+        !page.includes('/impressum/'),
     }),
   ],
   image: {
