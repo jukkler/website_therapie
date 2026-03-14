@@ -4,9 +4,10 @@ interface Props {
   label?: string;
   align?: 'left' | 'center';
   light?: boolean;
+  as?: 'h1' | 'h2';
 }
 
-const { subtitle, label, align = 'center', light = false } = Astro.props;
+const { subtitle, label, align = 'center', light = false, as: Tag = 'h2' } = Astro.props;
 ---
 
 <div class:list={['mb-12', align === 'center' ? 'text-center' : 'text-left']}>
@@ -20,14 +21,14 @@ const { subtitle, label, align = 'center', light = false } = Astro.props;
       {label}
     </span>
   )}
-  <h2
+  <Tag
     class:list={[
       'font-serif text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight',
       light ? 'text-white' : 'text-brand-dark',
     ]}
   >
     <slot />
-  </h2>
+  </Tag>
   {subtitle && (
     <p
       class:list={[
