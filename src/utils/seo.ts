@@ -52,12 +52,14 @@ export function generateLocalBusinessSchema() {
 
   return {
     '@context': 'https://schema.org',
-    '@type': 'Physiotherapy',
+    '@type': 'PhysicalTherapy',
     name: siteConfig.name,
     description: siteConfig.tagline,
     url: 'https://therapiezentrum-ziesemer.de',
     telephone: '+492174892426',
     email: siteConfig.email,
+    image: 'https://therapiezentrum-ziesemer.de/images/og-default.png',
+    logo: 'https://therapiezentrum-ziesemer.de/favicon.svg',
     address: {
       '@type': 'PostalAddress',
       streetAddress: siteConfig.address.street,
